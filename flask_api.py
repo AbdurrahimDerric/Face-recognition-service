@@ -1,9 +1,9 @@
 from flask import render_template,url_for,request,escape,flash,redirect,abort,Flask
-# from flask_cors import CORS, cross_origin
 import base64
 import pickle
 import face_recognition
 import cv2
+import werkzeug
 
 
 app = Flask(__name__)
@@ -12,9 +12,9 @@ with open("dataset.pickle", "rb") as reader:
     data = pickle.load(reader)
 
 
-@app.route('/api',methods = ["GET","POST","OPTIONS"])
+@app.route('/api_web',methods = ["GET","POST","OPTIONS"])
 # @cross_origin(origin='localhost',headers=['Content- Type','Authorization'])
-def api():
+def api_web():
     if request.method == "GET":
        print("get entered")
     elif request.method == "POST":
@@ -29,6 +29,16 @@ def api():
         with open("blog_user.png","wb") as f:
             f.write()
     return "ok"
+
+
+
+@app.route('/api_mobile', methods = ['GET', 'POST'])
+def handle_request():
+    imagefile = request.files['image']
+    filename = werkzeug.utils.secure_filename(imagefile.filename)
+    print("\nReceived image File name : " + imagefile.filename)
+    imagefile.save(filename)
+    return "Image Uploaded Successfully"
 
 
 
@@ -63,5 +73,6 @@ def recognize_face(image,data):
       return names[0]
 
 img= cv2.imread("darrige_pp.png")
-
 print(recognize_face(img,data))
+
+app.run(host="0.0.0.0", port=5000, debug=True)

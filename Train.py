@@ -6,6 +6,7 @@ import os
 
 
 # grab the paths to the input images in our dataset
+#Dataset here is a folder with subfolders conatining image pics with person belongs to this subfolder name
 paths = []
 cats = [f.path for f in os.scandir("Dataset/") if f.is_dir() ]
 
@@ -31,7 +32,7 @@ for (i, imagePath) in enumerate(paths):
 	rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
  	# detect the (x, y)-coordinates of the bounding boxes
 	# corresponding to each face in the input image
-	boxes = face_recognition.face_locations(rgb, model="cnn")
+	boxes = face_recognition.face_locations(rgb, model="hog")
 	# compute the facial embedding for the face
 	encodings = face_recognition.face_encodings(rgb, boxes)
 	# loop over the encodings
