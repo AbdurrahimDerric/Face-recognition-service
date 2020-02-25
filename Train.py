@@ -6,6 +6,7 @@ import os
 
 
 # grab the paths to the input images in our dataset
+# Dataset here is a folder with subfolders conatining image pics with person belongs to this subfolder name
 paths = []
 cats = [f.path for f in os.scandir("Dataset/") if f.is_dir() ]
 
