@@ -20,7 +20,8 @@ The trained model that resides at the server side are created as follows:
 	
  
 4- Logic:
-41- client side:
+
+	4.1- client side:
 The service doesn’t interfere with the logic in the client side as much as with the context it receives the image from the client.
 For a web application sending an AJAX post to the service API designated for web apps, flask code here checks the request method POST, and receives the image content.	
 
