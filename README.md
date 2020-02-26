@@ -28,7 +28,7 @@ For a web application sending an AJAX post to the service API designated for web
 
 ##### 4.2- Server side:
 when a post request is received at the specified address, the image is received and then converted to an RGB image. To recognize the face in this image:
-*	  first we detect the face in the image using HOG algorithm , then we get the encodings of that face using FaceNet. 
+*	 first we detect the face in the image using HOG algorithm , then we get the encodings of that face using FaceNet. 
 *	 Hereby we have a 128d vector for the face in this picture. We compare this vector with every labeled vector we already have in our Model using Euclidean distance.
 *	 by setting a threshold – default 1.1- for distances between vectors, we set True for the images that has a distance less than the threshold.
 *	 for the classification purpose we use simple KNN to set this unknown face identity, simply getting the max number of True’s of each labels.
@@ -37,8 +37,8 @@ when a post request is received at the specified address, the image is received 
 		
 		
 #### 5. Further reading on FaceNet:
-	“the method is based on learning a Euclidean embedding per image using a deep convolutional network. The network is trained such that the squared L2 distances in the embedding space directly correspond to face similarity: faces of the same person have small distances and faces of distinct people have large distances.”
-This is done in two steps,
+“the method is based on learning a Euclidean embedding per image using a deep convolutional network. The network is trained such that the squared L2 distances in the embedding space directly correspond to face similarity: faces of the same person have small distances and faces of distinct people have large distances.”
+##### This is done in two steps,
 1 - getting embeddings of the face image through the deep convolutional network,
  
 
