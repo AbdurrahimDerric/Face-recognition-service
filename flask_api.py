@@ -24,21 +24,26 @@ def api_web():
         # image recieved here is 64base image, can change according to application
         image = base64.b64decode(image_data)
         name = recognize_face(image, data)
-        print("reco ", name)
-        print("name" ,name)
-        with open("blog_user.png","wb") as f:
+
+        with open("client_image.png","wb") as f:
             f.write()
-    return "ok"
+    return name
 
 
 
 @app.route('/api_mobile', methods = ['GET', 'POST'])
-def handle_request():
+def api_mobile():
     imagefile = request.files['image']
     filename = werkzeug.utils.secure_filename(imagefile.filename)
     print("\nReceived image File name : " + imagefile.filename)
-    imagefile.save(filename)
-    return "Image Uploaded Successfully"
+
+    #check image type here before recognzing
+    name = recognize_face(imagefile, data)
+
+    #save to disk
+    imagefile.save("client_image.png")
+
+    return name
 
 
 
@@ -47,8 +52,6 @@ def recognize_face(image,data):
     rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
     print("[INFO] recognizing faces...")
-
-
     #model can be set to "cnn" which is slower but more accurtate
     boxes = face_recognition.face_locations(rgb,model="hog")
     print(boxes)
