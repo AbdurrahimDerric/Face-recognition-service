@@ -41,26 +41,21 @@ when a post request is received at the specified address, the image is received 
 This is done in two steps,
 1 - getting embeddings of the face image through the deep convolutional network,
  
-Figure 1 FaceNet paper
 
 
 
-
-
+![Image description](https://miro.medium.com/max/1024/1*OmFw4wZx5Rx3w4TpB7hS-g.png) 
 
 
 
 
 2 - Tuning the triplet loss so that the face pictures of the same person has similar vectors and those of different persons has a larger distance- more different vector.
 
- 
-Figure 2 FaceNet paper
+
+![Image description](https://miro.medium.com/max/651/1*hWBNCVbG-ngJ2aAiqg4Nzw.png) 
+
 For more details check the paper (Schroff, 2015).
-
-
-
-
-
+ 
  
 Schroff, F. (2015). FaceNet: A Unified Embedding for Face Recognition and Clustering.
 Singh, A. (2019). Feature Engineering for Images: A Valuable Introduction to the HOG Feature Descriptor. Retrieved from https://www.analyticsvidhya.com/blog/2019/09/feature-engineering-images-introduction-hog-feature-descriptor/.
