@@ -1,0 +1,30 @@
+import face_recognition
+import cv2
+
+
+def recognize_face(image,data):
+    rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    print("[INFO] recognizing faces...")
+    #model can be set to "cnn" which is slower but more accurtate
+    boxes = face_recognition.face_locations(rgb,model="hog")
+    print(boxes)
+    print("faces detected")
+
+    encodings = face_recognition.face_encodings(rgb, boxes)
+    names = []
+
+    #compare this face encodings with the encoding of the labeled dataset
+    for encoding in encodings:
+      matches = face_recognition.compare_faces(data["encodings"],encoding)
+      name = "unknown"
+      if True in matches:
+        matchedIdxs = [i for (i,b) in enumerate(matches) if b]
+        counts = {}
+        for i in matchedIdxs:
+          name = data["names"][i]
+          counts[name] = counts.get(name,0) + 1
+        name = max(counts, key = counts.get)
+
+      names.append(name)
+      return names[0]
