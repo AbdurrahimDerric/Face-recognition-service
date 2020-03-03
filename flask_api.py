@@ -1,8 +1,7 @@
 from flask import render_template,url_for,request,escape,flash,redirect,abort,Flask
 import base64
 import pickle
-import face_recognition
-import cv2
+from recognition import recognize_face
 import werkzeug
 
 
