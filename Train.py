@@ -42,6 +42,32 @@ for (i, imagePath) in enumerate(paths):
 		knownEncodings.append(encoding)
 		knownNames.append(name)
 
+		
+def add_encoding(image_path, name):
+   #load the currrent encodings
+    data_path = "flasky/dataset.pickle"
+    data = read_data(data_path)
+    knownEncodings = data['encodings']
+    knownNames = data['names']
+
+    #read this image and add it to encodings along with owner's name
+    img = cv2.imread(image_path)
+    rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    boxes = face_recognition.face_locations(rgb, model="hog")
+    # compute the facial embedding for the face
+    encodings = face_recognition.face_encodings(rgb, boxes)
+    # loop over the encodings
+    for encoding in encodings:  # more than one face
+        # add each encoding + name to our set of known names and
+        # encodings
+        knownEncodings.append(encoding)
+        knownNames.append(name)
+    data = {"encodings": knownEncodings, "names": knownNames}
+    write_data(data_path,data)
+    return data
+
+
+
 print("[INFO] serializing encodings...")
 data = {"encodings": knownEncodings, "names": knownNames}
 f = open("dataset.pickle", "wb")
