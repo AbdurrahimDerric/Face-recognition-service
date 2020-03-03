@@ -46,35 +46,32 @@ def api_mobile():
     return name
 
 
+# the add_encoding api, with simple database procedcure
+def add_encoding_api():
+    if request.method == "GET":
+       return "no pic"
+    elif request.method == "POST":
+        image_data = request.form.get("content").split(",")[1]
+        name = request.form.get("label")
+
+        this_user = User.query.filter_by(username=name).first()
+        counter = this_user.login_pic_number + 1
+
+        image_path = "flasky/Dataset/" + name + "/" + name + "_" +counter.__str__() + ".png"
+        with open(image_path,"wb") as f:
+            f.write(base64.b64decode(image_data))
+
+        global data
+        data = add_encoding(image_path,name)
+        # write_counter(folder_path,counter)
+        this_user.login_pic_number = counter
+        db.session.commit()
+        return "pic saved"
+    return "done"
 
 
-def recognize_face(image,data):
-    rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    print("[INFO] recognizing faces...")
-    #model can be set to "cnn" which is slower but more accurtate
-    boxes = face_recognition.face_locations(rgb,model="hog")
-    print(boxes)
-    print("faces detected")
-
-    encodings = face_recognition.face_encodings(rgb, boxes)
-    names = []
-
-    #compare this face encodings with the encoding of the labeled dataset
-    for encoding in encodings:
-      matches = face_recognition.compare_faces(data["encodings"],encoding)
-      name = "unknown"
-      if True in matches:
-        matchedIdxs = [i for (i,b) in enumerate(matches) if b]
-        counts = {}
-        for i in matchedIdxs:
-          name = data["names"][i]
-          counts[name] = counts.get(name,0) + 1
-        name = max(counts, key = counts.get)
-
-      names.append(name)
-      return names[0]
-
+    
 img= cv2.imread("darrige_pp.png")
 print(recognize_face(img,data))
 
